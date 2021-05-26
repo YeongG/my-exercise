@@ -1,27 +1,41 @@
-import { FC, useCallback, useEffect, useRef } from "react";
-import { Calander } from "../../components";
-import useCalander from "../../lib/hooks/useCalander";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { DetailExercise } from "../../components";
+import { DateState } from "../../lib/payloads/default";
+import IndexCalander from "./IndexCalander/IndexCalander";
+import IndexDetailExercise from "./IndexDetailExercise/IndexDetailExercise";
 import * as S from "./styles";
 
 const IndexPage: FC<{}> = () => {
-  const [date, setDate, changeMonth] = useCalander();
+  const [selectDate, setSelectDate] = useState<DateState>({
+    year: 0,
+    date: 0,
+    month: 0,
+  });
 
-  const leftClickHandler = useCallback(() => {
-    changeMonth(-1);
-  }, []);
-  const rightClickHandler = useCallback(() => {
-    changeMonth(1);
+  const dateClickHandler = useCallback((date: DateState) => {
+    const element = document.querySelector(".will-unmount-detail");
+    if (!element) {
+      setSelectDate(date);
+      return;
+    }
+
+    element.classList.add("fade-out");
+    setTimeout(() => {
+      element.classList.remove("fade-out");
+      setSelectDate(date);
+    }, 250);
   }, []);
 
   return (
     <S.Container>
+      <S.GlobalStyle />
       <S.CenterDivWrap>
-        <Calander
-          title="학사일정"
-          date={date}
-          onClickLeftMonth={leftClickHandler}
-          onClickRightMonth={rightClickHandler}
-        />
+        <S.CalanderWrap>
+          <IndexCalander onClickDate={dateClickHandler} />
+        </S.CalanderWrap>
+        <S.DetailInfoWrap>
+          <IndexDetailExercise selectDate={selectDate} />
+        </S.DetailInfoWrap>
       </S.CenterDivWrap>
     </S.Container>
   );
