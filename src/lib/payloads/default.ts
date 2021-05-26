@@ -8,3 +8,11 @@ export interface CalanderDateState {
   year: number;
   month: number;
 }
+
+export interface CalanderListItem {
+  date: number;
+  day: number;
+  isThisMonth: boolean;
+  month: number;
+  year: number;
+}
