@@ -1,18 +1,18 @@
-import { FC, useRef, useState } from "react";
-import { getToDayDateState } from "../../lib/utils";
+import { FC, memo } from "react";
 import CalanderHeader, {
   CalanderHeaderProps,
 } from "./CalanderHeader/CalanderHeader";
-import CalanderList from "./CalanderList/CalanderList";
+import CalanderList, { CalanderListProps } from "./CalanderList/CalanderList";
 import * as S from "./styles";
 
-interface Props extends CalanderHeaderProps {}
+interface Props extends CalanderHeaderProps, CalanderListProps {}
 
 const Calander: FC<Props> = ({
   title,
-  date = getToDayDateState(),
+  date,
   onClickLeftMonth,
   onClickRightMonth,
+  onClickDate,
 }) => {
   return (
     <S.Container>
@@ -22,9 +22,9 @@ const Calander: FC<Props> = ({
         onClickLeftMonth={onClickLeftMonth}
         onClickRightMonth={onClickRightMonth}
       />
-      <CalanderList />
+      <CalanderList onClickDate={onClickDate} date={date} />
     </S.Container>
   );
 };
 
-export default Calander;
+export default memo(Calander);

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
@@ -52,16 +52,29 @@ export const CalanderListWrap = styled.div`
   font-size: 14px;
 `;
 
-export const CalanderItem = styled.div`
+export const CalanderItem = styled.div<{ isActive: boolean }>`
   text-align: right;
+  padding: 4px 8px;
+  height: 80px;
+  border: 1.5px solid transparent;
+  box-sizing: border-box;
+
+  ${(props) =>
+    props.isActive &&
+    css`
+      color: rgba(0, 0, 0, 0.2);
+    `}
+
+  &.select {
+    border-color: rgb(83, 35, 178);
+  }
 `;
 
-export const CalanderItemHeader = styled(CalanderItem)<{ isActive: boolean }>`
+export const CalanderItemHeader = styled(CalanderItem)`
   color: #4b4b4b;
   height: 30px;
+  border: none;
   border-bottom: 2px solid
     ${(props) => (props.isActive ? "rgb(255, 85, 85)" : "rgb(221, 221, 221)")};
-  padding: 4px 8px;
-  box-sizing: border-box;
   font-weight: bold;
 `;
