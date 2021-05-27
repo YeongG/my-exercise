@@ -16,6 +16,8 @@ export interface HealthData {
   exercise: Exercise;
 }
 
+export interface HealthRecorderState extends MyHealth, Exercise {}
+
 export interface LocalStroageHealthData {
   [key: string]: HealthData;
 }
