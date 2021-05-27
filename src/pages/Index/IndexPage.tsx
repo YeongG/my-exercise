@@ -1,5 +1,4 @@
 import { FC, useCallback, useEffect, useRef, useState } from "react";
-import { DetailExercise } from "../../components";
 import { DateState } from "../../lib/payloads/default";
 import IndexCalander from "./IndexCalander/IndexCalander";
 import IndexDetailExercise from "./IndexDetailExercise/IndexDetailExercise";
@@ -12,16 +11,24 @@ const IndexPage: FC<{}> = () => {
     month: 0,
   });
 
+  const changeMonthHanlder = useCallback(() => {
+    setSelectDate({ year: 0, month: 0, date: 0 });
+    const element = document.querySelector(".select");
+    if (element) element.classList.remove("select");
+  }, []);
+
   const dateClickHandler = useCallback((date: DateState) => {
-    const element = document.querySelector(".will-unmount-detail");
-    if (!element) {
+    const element = document.querySelector(".will-unmount-inbody");
+    const element2 = document.querySelector(".will-unmount-detail");
+    if (!element || !element2) {
       setSelectDate(date);
       return;
     }
-
     element.classList.add("fade-out");
+    element2.classList.add("fade-out");
     setTimeout(() => {
       element.classList.remove("fade-out");
+      element2.classList.remove("fade-out");
       setSelectDate(date);
     }, 250);
   }, []);
@@ -31,11 +38,12 @@ const IndexPage: FC<{}> = () => {
       <S.GlobalStyle />
       <S.CenterDivWrap>
         <S.CalanderWrap>
-          <IndexCalander onClickDate={dateClickHandler} />
+          <IndexCalander
+            onChangeMonth={changeMonthHanlder}
+            onClickDate={dateClickHandler}
+          />
         </S.CalanderWrap>
-        <S.DetailInfoWrap>
-          <IndexDetailExercise selectDate={selectDate} />
-        </S.DetailInfoWrap>
+        <IndexDetailExercise selectDate={selectDate} />
       </S.CenterDivWrap>
     </S.Container>
   );
