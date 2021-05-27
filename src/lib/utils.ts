@@ -1,6 +1,6 @@
 import { localStroageConstant } from "./constants";
 import { CalanderDateState, DateState } from "./payloads/default";
-import { LocalStroageHealthData } from "./payloads/health";
+import { HealthData, LocalStroageHealthData } from "./payloads/health";
 
 export const getToDayDateState = (): CalanderDateState => {
   const dateObj: Date = new Date();
@@ -14,7 +14,7 @@ export const getToDayDateState = (): CalanderDateState => {
   };
 };
 
-export const getHealthData = (date: DateState) => {
+export const getHealthData = (date: DateState): HealthData | null => {
   const allDataStr: string | null = window.localStorage.getItem(
     localStroageConstant.HEALTH_DATA
   );
@@ -23,8 +23,33 @@ export const getHealthData = (date: DateState) => {
   const allData: LocalStroageHealthData = JSON.parse(allDataStr);
 
   const dateString: string = `${date.year}-${date.month}-${date.date}`;
-  const data = allData[dateString];
+  const data: HealthData = allData[dateString];
 
   if (!data) return null;
   return data;
+};
+
+export const saveHealthData = (key: string, data: HealthData) => {
+  const allDataStr: string | null = window.localStorage.getItem(
+    localStroageConstant.HEALTH_DATA
+  );
+
+  let newData: LocalStroageHealthData;
+  if (!allDataStr) {
+    newData = {};
+    newData[key] = data;
+
+    localStorage.setItem(
+      localStroageConstant.HEALTH_DATA,
+      JSON.stringify(newData)
+    );
+  } else {
+    newData = JSON.parse(allDataStr);
+    newData[key] = data;
+  }
+
+  localStorage.setItem(
+    localStroageConstant.HEALTH_DATA,
+    JSON.stringify(newData)
+  );
 };
