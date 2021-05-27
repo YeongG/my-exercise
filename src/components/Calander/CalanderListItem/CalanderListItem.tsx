@@ -19,13 +19,14 @@ const CalanderListItem: FC<Props> = ({
 }) => {
   const clickHandler = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
+      if (!isThisMonth) return;
       document
         .querySelectorAll(".select")
         .forEach((element) => element.classList.remove("select"));
       e.currentTarget.classList.add("select");
       onClick && onClick({ year, month, date });
     },
-    [year, month, date]
+    [year, month, date, isThisMonth]
   );
 
   return (
