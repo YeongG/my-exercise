@@ -19,6 +19,17 @@ export const SlideUp = (px: number) => keyframes`
   }
 `;
 
+export const SlideDown = (px: number) => keyframes`
+  0% {
+    opacity:0;
+    transform:translateY(-${px}px);
+  }
+  100% {
+    opacity:1;
+    transform:translateY(0px);
+  }
+`;
+
 export const GlobalStyle = createGlobalStyle`
     body {
         margin:0;
