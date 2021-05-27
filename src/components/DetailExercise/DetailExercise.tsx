@@ -1,24 +1,20 @@
-import { FC, useEffect, useState } from "react";
-import { weightIcon, fatIcon, muscleIcon, visceralFatIcon } from "../../assets";
-import { HealthData } from "../../lib/payloads/health";
+import { FC } from "react";
 import * as S from "./styles";
+import { ExerciseCount } from "..";
+import { crunchIcon, pushUpIcon, pullUpIcon } from "../../assets";
+import { Exercise } from "../../lib/payloads/health";
 
-interface Props extends HealthData {}
+interface Props extends Exercise {}
 
-const DetailExercise: FC<Props> = ({}) => {
+const DetailExercise: FC<Props> = ({ crunch, pullUp, pushUp }) => {
   return (
     <S.Container className="will-unmount-detail">
-      <S.HeaderWrap>
-        <S.HeaderTitle>세부내용</S.HeaderTitle>
-      </S.HeaderWrap>
-      <S.HealthWrap>
-        <S.HealthImgWrap>
-          <S.HelathItmeImg src={weightIcon} />
-          <S.HelathItmeImg src={fatIcon} />
-          <S.HelathItmeImg src={muscleIcon} />
-          <S.HelathItmeImg src={visceralFatIcon} />
-        </S.HealthImgWrap>
-      </S.HealthWrap>
+      <S.DetailHeader>운동</S.DetailHeader>
+      <S.ExerciseWrap>
+        <ExerciseCount count={pullUp} src={pullUpIcon} />
+        <ExerciseCount count={pushUp} src={pushUpIcon} />
+        <ExerciseCount count={crunch} src={crunchIcon} />
+      </S.ExerciseWrap>
     </S.Container>
   );
 };
